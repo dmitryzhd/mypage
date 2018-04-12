@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+    <head>
+
+        <!-- Metas -->
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Dmitry Zhdankin" />
+
+        <!-- Links -->
+        <link rel="icon" type="image/png" href="../static/images/favicon.png" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+        <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+
+        <!-- Document Title -->
+        <title>Dmitry Zhdankin | Personal Page</title>
+
+    </head>
+    <body>
+        <!-- Page Wrapper -->
+        <div id="page-wrapper">
+
+            <!-- Header -->
+            <header id="header" class="standard">
+                <div class="header-wrapper">
+                    <div class="container">
+                        <!-- <div id="logo">
+                            <a href="index.html">
+                                <img src="../static/images/logo.png" alt="Logo">
+                            </a>
+                        </div> -->
+                        <span id="menu-trigger"><span></span></span>
+                        <nav id="main-menu">
+                            <ul>
+                                <li><a href="https://medium.com/@dmitryzhdankin" target="_blank"><div>MEDIUM</div></a>
+                                <li><a href="https://twitter.com/dmitryzhdankin" target="_blank"><div>TWITTER</div></a>
+                                <li><a href="https://t.me/dmitryzhdankin" target="_blank"><div>TELEGRAM</div></a>
+                                <li><a href="mailto:dmitry.zhdankin@gmail.com"><div>EMAIL</div></a>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <!-- Header Ends -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper">
+
+                <!-- Main Wrapper -->
+                {% block content %}{% endblock %}
+                <!-- Main Wrapper Ends -->
+
+                <!-- Footer -->
+                <footer id="footer" class="standard">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <div class="copyrights">
+                                    <p>&COPY; 2018 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <!-- Footer Ends -->
+
+            </div>
+            <!-- Content Wrapper Ends -->
+
+        </div>
+        <!-- Page Wrapper Ends -->
+
+        <!-- Scripts -->
+        <script src="../static/js/jquery-1.12.4.min.js"></script>
+        <script src="../static/js/main.js"></script>
+        <!-- Scripts Ends -->
+    </body>
+</html>
