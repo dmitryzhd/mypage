@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geocoding service</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <!--  Include jquery - required for XHR requests -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <!--  Include google maps api -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARl_xZ0mp3QPT8zQJgrcY-m0mshrY1uZE&callback=initMap">
+    </script>
+    <!--  Include r360.js -->
+    <script src="https://releases.route360.net/r360-js/latest.js"></script>
+
+
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="floating-panel">
+      <input id="address" type="textbox" value="Sydney, NSW">
+      <input id="submit" type="button" value="Geocode">
+    </div>
+    <div id="map"></div>
+    <script>
+
+      geocodeAddress()
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: {lat: -34.397, lng: 150.644}
+        });
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('submit').addEventListener('click', function() {
+          geocodeAddress(geocoder, map);
+        });
+      }
+
+      function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+
+      $(document).ready(function() {
+        var myLatlng = [-34.397, 150.644];
+
+        // each map get's it's own polygon layer
+        var colorPolygonLayer = r360.googleMapsPolygonLayer(map);
+
+        // attach the click listeners, action when drag finished
+        google.maps.event.addListener(marker, 'dragend', function(event) {
+          showPolygons(event.latLng.lat(), event.latLng.lng());
+        });
+
+        showPolygons(myLatlng.lat(), myLatlng.lng());
+
+        function showPolygons(lat, lng) {
+
+          var travelOptions = r360.travelOptions();
+          // please contact us and request your own key
+          travelOptions.setServiceKey('VHP5I6QP34IQE9AKLO5232214992');
+          // set the service url for your area
+          travelOptions.setServiceUrl('https://api.targomo.com/northamerica/');
+          travelOptions.addSource({ lat: lat, lng: lng });
+          travelOptions.setTravelTimes([60*5, 60*10, 60*15]);
+          travelOptions.setTravelType('car');
+          // travelOptions.setDate('20150706');
+          // travelOptions.setTime('39000');
+
+          // call the service
+          r360.PolygonService.getTravelTimePolygons(travelOptions,
+            function(polygons) {
+              colorPolygonLayer.update(polygons);
+            },
+            function(status, message) {
+              console.log("The Targomo API is not available - double check your configuration options.");
+            }
+          );
+        }
+      })
+    </script>
+
+  </body>
+</html>
